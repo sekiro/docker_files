@@ -1,0 +1,25 @@
+nodemysql_data
+  image: "busybox"
+  container_name: "mysql_data"
+  volumes: 
+    - /var/lib/mysql
+
+nodemysql
+  image: "mysql"
+  container_name: "mysql"
+  environment: 
+    MYSQL_ROOT_PASSWORD: mysql
+  ports:
+    - "3306:3306"
+  volumes_from:
+    - nodemysql_data
+  
+nodeapp:
+  build: "./node"
+  container_name: "usernode"
+  ports:
+    - "3000:3000"
+  volumes:
+    - "/app/nodejs_back_develop:/app"
+  links:
+    -  "mysql"
