@@ -1,25 +1,29 @@
-nodemysql_data
-  image: "busybox"
-  container_name: "mysql_data"
-  volumes: 
-    - /var/lib/mysql
+version: '2'
+services:
+  nodemysql:
+    image: "mysql"
+    command: mysqld --character-set-server=utf8 
+    container_name: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - datastore:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
 
-nodemysql
-  image: "mysql"
-  container_name: "mysql"
-  environment: 
-    MYSQL_ROOT_PASSWORD: mysql
-  ports:
-    - "3306:3306"
-  volumes_from:
-    - nodemysql_data
-  
-nodeapp:
-  build: "./node"
-  container_name: "usernode"
-  ports:
-    - "3000:3000"
-  volumes:
-    - "/app/nodejs_back_develop:/app"
-  links:
-    -  "mysql"
+  nodeapp:
+    build: ./node
+    container_name: "usernode"
+    ports:
+      - "3000:3000"
+    links:
+      - nodemysql
+    tty: true
+
+volumes:
+  datastore:
+    driver_opts:
+      type: none
+      device: /var/opt/mysql
+      o: bind

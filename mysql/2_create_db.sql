@@ -1,0 +1,1 @@
+create database sasami default character set utf8;
