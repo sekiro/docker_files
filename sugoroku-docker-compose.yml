@@ -1,6 +1,6 @@
 version: '2'
 services:
-  nodemysql:
+  sugorokumysql:
     image: "mysql"
     command: mysqld --character-set-server=utf8 
     container_name: "sugoroku_mysql"
