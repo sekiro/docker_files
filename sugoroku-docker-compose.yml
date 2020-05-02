@@ -1,0 +1,20 @@
+version: '2'
+services:
+  nodemysql:
+    image: "mysql"
+    command: mysqld --character-set-server=utf8 
+    container_name: "sugoroku_mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - datastore:/var/lib/sugoroku_mysql
+      - ./sugoroku_mysql/init:/docker-entrypoint-initdb.d
+
+volumes:
+  datastore:
+    driver_opts:
+      type: none
+      device: /var/opt/sugoroku_mysql
+      o: bind

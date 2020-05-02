@@ -12,21 +12,21 @@ services:
       - datastore:/var/lib/mysql
       - ./mysql/init:/docker-entrypoint-initdb.d
 
-  noderedis:
-    image: "redis"
-    container_name: "redis"
-    ports: 
-      - "6379:6379"
+#  noderedis:
+#    image: "redis"
+#    container_name: "redis"
+#    ports: 
+#      - "6379:6379"
 
-  nodeapp:
-    build: ./node
-    container_name: "usernode"
-    ports:
-      - "3000:3000"
-    links:
-      - nodemysql
-      - noderedis
-    tty: true
+#  nodeapp:
+#    build: ./node
+#    container_name: "usernode"
+#    ports:
+#      - "3000:3000"
+#    links:
+#      - nodemysql
+#      - noderedis
+#    tty: true
 
 volumes:
   datastore:
